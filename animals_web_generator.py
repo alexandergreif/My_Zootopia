@@ -1,12 +1,11 @@
 import json
 
-# Load the JSON file
-file_path = "animals_data.json"
+json_file_path = "animals_data.json"
 
-with open(file_path, "r", encoding="utf-8") as file:
+with open(json_file_path, "r", encoding="utf-8") as file:
     animals = json.load(file)
 
-# Iterate through animals and print the required fields
+animals_output = ""
 for animal in animals:
     details = []
 
@@ -23,8 +22,19 @@ for animal in animals:
         details.append(f"Type: {animal['characteristics']['type']}")
 
     if details:
-        print("\n".join(details))
-        print()  # Print an empty line for separation
+        animals_output += "\n".join(details) + "\n\n"
 
-#print(animals_data)
+# Read the HTML template file
+template_file_path = "animals_template.html"
+with open(template_file_path, "r", encoding="utf-8") as template_file:
+    template_content = template_file.read()
 
+# Replace the placeholder with the generated animals information
+new_html_content = template_content.replace("__REPLACE_ANIMALS_INFO__", animals_output)
+
+# Write the new HTML content to a file
+output_file_path = "animals.html"
+with open(output_file_path, "w", encoding="utf-8") as output_file:
+    output_file.write(new_html_content)
+
+print("The animals.html file has been created successfully!")
